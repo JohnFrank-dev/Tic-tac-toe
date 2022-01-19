@@ -4,6 +4,7 @@ const Board = () => {
   const [player, setPlayer] = React.useState(1);
   const [gameState, setGameState] = React.useState([]);
   let status = `Winner is ${checkForWinner(gameState)}`;
+  let finished = status != "Winner is No Winner Yet";
 
   // Part 1 step 1 code goes here
   // Use conditional logic to set a variable to either 'Player O' or  'Player X'
@@ -18,7 +19,7 @@ const Board = () => {
   };
   function renderSquare(i) {
     // use properties to pass callback function takeTurn to Child
-    return <Square takeTurn={takeTurn} id={i}></Square>;
+    return <Square takeTurn={takeTurn} id={i} finished={finished}></Square>;
   }
 
   return (
@@ -51,7 +52,7 @@ const Board = () => {
   );
 };
 
-const Square = ({ takeTurn, id }) => {
+const Square = ({ takeTurn, id, finished }) => {
   const mark = ['O', 'X', '+'];
   // id is the square's number
   // filled tells you if square has been filled
@@ -61,7 +62,7 @@ const Square = ({ takeTurn, id }) => {
   const [tik, setTik] = React.useState(2);
   const palet = ["white", "red", "blue"];
   return (
-    <button className={tik == 1 ? "red" : "white"}
+    <button className={tik == 1 ? "red" : "white"} disabled={finished}
       // Part 2: update the return statement below to add css classes
       onClick={() => {
         setTik(takeTurn(id));
